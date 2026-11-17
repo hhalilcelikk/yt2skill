@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>YouTube → Skill · Settings</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root {
+      --paper: #f2ede3; --paper-2: #ebe4d6; --ink: #1c1b19; --muted: #6e675c; --rule: #d6ccba;
+      --red: #d23b1f; --red-ink: #fbf6ee; --shadow: #1c1b19; --desk: #e4ddcf;
+      --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+      --serif: "Iowan Old Style", "Charter", "Palatino Linotype", Palatino, Georgia, serif;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root { --paper: #1f1e1b; --paper-2: #282622; --ink: #ece5d6; --muted: #a39a8b; --rule: #3b3732;
+              --red: #e5583a; --red-ink: #1a1917; --shadow: #000; --desk: #141311; }
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--desk); color: var(--ink); font: 16px/1.55 var(--serif); padding: 48px 20px 80px; }
+    .card { max-width: 660px; margin: 0 auto; background: var(--paper); border: 1.5px solid var(--ink); box-shadow: 8px 8px 0 var(--shadow); }
+    .strip { display: flex; justify-content: space-between; padding: 12px 22px 10px; border-bottom: 1.5px dashed var(--rule);
+             font: 600 11px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+    .strip b { color: var(--red); }
+    .strip .brand { color: var(--ink); }
+    main { padding: 26px 30px 30px; }
+    h1 { font: 600 30px/1.15 var(--serif); margin: 0 0 8px; letter-spacing: -.01em; }
+    .lede { margin: 0; color: var(--muted); }
+    h2 { font: 600 11px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--muted);
+         margin: 34px 0 0; padding-bottom: 10px; border-bottom: 1.5px solid var(--ink); }
+    ol { margin: 14px 0 0; padding-left: 0; list-style: none; counter-reset: s; }
+    ol li { counter-increment: s; display: grid; grid-template-columns: 34px 1fr; padding: 10px 0; border-bottom: 1px solid var(--rule); }
+    ol li::before { content: counter(s, decimal-leading-zero); font: 600 12px/1.9 var(--mono); color: var(--red); }
+    .row { display: grid; grid-template-columns: 150px 1fr; gap: 14px; align-items: start; padding: 14px 0; border-bottom: 1px solid var(--rule); }
+    .lbl { font: 600 11px/1.5 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); padding-top: 6px; }
+    select, input[type=text], textarea {
+      width: 100%; font: 16px/1.5 var(--serif); color: var(--ink); background: transparent;
+      border: 0; border-bottom: 1.5px dotted var(--muted); padding: 4px 0; outline: none; border-radius: 0;
+    }
+    select { cursor: pointer; appearance: none; background-image: linear-gradient(45deg, transparent 50%, var(--ink) 50%), linear-gradient(135deg, var(--ink) 50%, transparent 50%);
+             background-position: calc(100% - 12px) 55%, calc(100% - 7px) 55%; background-size: 5px 5px; background-repeat: no-repeat; }
+    select:focus, input:focus, textarea:focus { border-bottom: 1.5px solid var(--red); }
+    textarea { min-height: 64px; resize: vertical; }
+    ::placeholder { color: var(--muted); font-style: italic; }
+    .help { margin: 8px 0 0; font: 12.5px/1.5 var(--mono); color: var(--muted); }
+    .check { display: flex; gap: 10px; align-items: flex-start; padding: 12px 0; border-bottom: 1px solid var(--rule); }
+    .check input { accent-color: var(--red); margin-top: 5px; }
+    .btn { font: 700 12.5px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; cursor: pointer;
+           padding: 13px 18px; border: 1.5px solid var(--ink); background: var(--red); color: var(--red-ink); box-shadow: 3px 3px 0 var(--shadow); }
+    .btn:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--shadow); }
+    .btn.ghost { background: var(--paper); color: var(--ink); }
+    .actions { display: flex; align-items: center; gap: 14px; margin-top: 22px; }
+    #saved { font: 12px/1 var(--mono); color: var(--red); opacity: 0; transition: opacity .2s; }
+    ul.plain { margin: 12px 0 0; padding: 0; list-style: none; }
+    ul.plain li { padding: 9px 0; border-bottom: 1px solid var(--rule); font-size: 15px; }
+    ul.plain b { font: 600 11px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--ink); margin-right: 6px; }
+    code { font: 13px/1 var(--mono); background: var(--paper-2); padding: 2px 5px; }
+    .fine { margin-top: 12px; font: 12.5px/1.6 var(--mono); color: var(--muted); }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="strip"><span class="brand">YouTube <b>→</b> Skill</span><span>Settings · v0.4</span></div>
+    <main>
+      <h1>Turn videos into skills you keep.</h1>
+      <p class="lede">Reads a YouTube transcript in your browser and pastes it into your own Claude or ChatGPT, ready to send. No server, no account, no API key.</p>
+
+      <h2>How it works</h2>
+      <ol>
+        <li><span>Hover over a thumbnail or the player and click the <strong>red ribbon</strong>. On a video page you can also press <code>Alt+Shift+S</code> or click the toolbar icon.</span></li>
+        <li><span>Pick Claude or ChatGPT, and whether to create a new skill or update one you have.</span></li>
+        <li><span>Press <strong>Open</strong> (or ⌘/Ctrl+Enter). Claude or ChatGPT opens in a new tab with the prompt pasted in; you review it and press Send.</span></li>
+      </ol>
+
+      <h2>Defaults</h2>
+      <div class="row">
+        <label class="lbl" for="target">Send to</label>
+        <div>
+          <select id="target">
+            <option value="claude">Claude — claude.ai</option>
+            <option value="chatgpt">ChatGPT — chatgpt.com</option>
+          </select>
+          <p class="help">Opens the official website in a new tab and pastes the prompt into the message box. Nothing is sent until you press Send.</p>
+        </div>
+      </div>
+      <div class="row">
+        <label class="lbl" for="lang">Captions</label>
+        <div>
+          <input id="lang" type="text" placeholder="the video’s own language">
+          <p class="help">A language code such as en, tr or fr, for videos with several caption tracks.</p>
+        </div>
+      </div>
+      <div class="row">
+        <label class="lbl" for="goal">Default goal</label>
+        <textarea id="goal" placeholder="e.g. skills I can use for B2B sales and content planning"></textarea>
+      </div>
+      <label class="check"><input id="embed" type="checkbox"><span>Include the full instructions in every prompt. Turn this off once the youtube-to-skill skill is installed, to keep prompts short.</span></label>
+      <label class="check"><input id="ts" type="checkbox"><span>Keep timestamps in transcripts.</span></label>
+      <div class="actions"><button id="save" class="btn">Save settings</button><span id="saved">Saved.</span></div>
+
+      <h2>The skill</h2>
+      <p class="fine">Results are more consistent, and prompts shorter, when your assistant has the youtube-to-skill skill installed.</p>
+      <div class="actions" style="margin-top:12px"><button id="dlskill" class="btn ghost">Download SKILL.md</button></div>
+      <ul class="plain">
+        <li><b>Claude Code</b> save as <code>~/.claude/skills/youtube-to-skill/SKILL.md</code></li>
+        <li><b>Claude app</b> put SKILL.md in a folder named <code>youtube-to-skill</code>, zip it, upload it where your account manages skills</li>
+        <li><b>Others</b> copy the folder into the tool’s skills directory (Codex, Cursor, Gemini CLI…)</li>
+      </ul>
+
+      <h2>Privacy</h2>
+      <p class="fine">On YouTube the extension reads the transcript from your browser. On claude.ai and chatgpt.com it acts only in a tab it opened itself: it pastes the prompt once and reads nothing else. Settings are stored in Chrome sync storage. No analytics, no server, nothing sent anywhere until you press Send.</p>
+    </main>
+  </div>
+  <script src="options.js"></script>
+</body>
+</html>

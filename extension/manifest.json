@@ -1,0 +1,60 @@
+{
+  "manifest_version": 3,
+  "name": "YouTube to Skill",
+  "short_name": "yt2skill",
+  "version": "0.4.0",
+  "description": "Turn a YouTube video into an Agent Skill (SKILL.md) with your own Claude or ChatGPT, in the browser. Free, open source, no servers.",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_title": "YouTube to Skill",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png"
+    }
+  },
+  "commands": {
+    "open-panel": {
+      "suggested_key": {
+        "default": "Alt+Shift+S"
+      },
+      "description": "Turn the current video into a skill"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "options_page": "options/options.html",
+  "permissions": [
+    "storage",
+    "clipboardWrite"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.youtube.com/*"
+      ],
+      "js": [
+        "content/core.js",
+        "content/transcript.js",
+        "content/prompt.js",
+        "content/ui.js",
+        "content/main.js"
+      ],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": [
+        "https://claude.ai/*",
+        "https://chatgpt.com/*"
+      ],
+      "js": [
+        "chat/fill.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ]
+}
