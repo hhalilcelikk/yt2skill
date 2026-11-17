@@ -40,15 +40,15 @@ This project has two parts that work together or separately:
 
 Works in Chrome, Edge, Brave, Arc and other Chromium browsers. It isn't on the Chrome Web Store yet, so it is installed in developer mode, which takes about a minute.
 
-1. **Download** `yt2skill-extension.zip` from the [latest release](../../releases/latest).
-2. **Unzip it.** You get a folder containing `manifest.json`.
+1. **Download**: on this page, click the green **Code** button, then **Download ZIP**. ([Direct link](https://github.com/hhalilcelikk/yt2skill/archive/refs/heads/main.zip))
+2. **Unzip it.** You get a folder called `yt2skill-main`. Move it somewhere permanent, such as your Documents folder: Chrome loads the extension from it.
 3. Open **`chrome://extensions`** in your browser.
 4. Turn on **Developer mode** (switch in the top-right corner).
-5. Click **Load unpacked** and select the unzipped folder, the one that contains `manifest.json`.
+5. Click **Load unpacked** and select the **`extension`** folder inside `yt2skill-main` (the folder that contains `manifest.json`).
 6. Optional: click the puzzle-piece icon in the toolbar and **pin** YouTube → Skill.
 7. **Refresh** any YouTube tabs you already had open.
 
-Keep the folder where it is: Chrome loads the extension from it. To update later, replace the folder's contents with the new release and click the reload icon on the extension's card in `chrome://extensions`.
+To update later, download the ZIP again, replace the old folder, and click the reload icon on the extension's card in `chrome://extensions`.
 
 <details>
 <summary>Prefer to install from source?</summary>
@@ -57,7 +57,7 @@ Keep the folder where it is: Chrome loads the extension from it. To update later
 git clone https://github.com/hhalilcelikk/yt2skill.git
 ```
 
-Then follow steps 3–7 above, selecting the `extension` folder inside the clone.
+Then follow steps 3–7 above, selecting the `extension` folder inside the clone. Update with `git pull`.
 </details>
 
 ## Use it
@@ -81,12 +81,12 @@ Under **Options** in the card: turn off *Include full instructions* once the ski
 
 The extension works without it: by default each prompt carries a condensed version of the instructions. With the skill installed, results are more consistent and prompts are shorter.
 
-Download `youtube-to-skill.zip` from the [latest release](../../releases/latest), or use the `skills/youtube-to-skill` folder from this repo.
+The skill is the `skills/youtube-to-skill` folder in the ZIP you downloaded (or in this repo).
 
 | Where | How |
 |---|---|
-| **Claude** (claude.ai and the apps) | Upload `youtube-to-skill.zip` in the part of Claude's settings where you manage skills. |
-| **Claude Code** | Unzip to `~/.claude/skills/youtube-to-skill/` (the folder must contain `SKILL.md`). |
+| **Claude** (claude.ai and the apps) | Zip the `youtube-to-skill` folder (on a Mac: right-click → Compress) and upload the zip in the part of Claude's settings where you manage skills. |
+| **Claude Code** | Copy the folder to `~/.claude/skills/youtube-to-skill/` (it must contain `SKILL.md`). |
 | **Codex, Cursor, Gemini CLI, Copilot and other Agent Skills tools** | Copy the `youtube-to-skill` folder into that tool's skills directory. |
 
 Then, in the extension's card, open **Options** and untick **Include full instructions**.
@@ -122,7 +122,7 @@ YouTube currently rejects methods 2 and 3 for many videos. So when you click the
 
 | Problem | Fix |
 |---|---|
-| "Manifest file is missing" when loading | You selected the outer folder. Select the folder that directly contains `manifest.json`. |
+| "Manifest file is missing" when loading | You selected `yt2skill-main`. Select the `extension` folder inside it, the one that directly contains `manifest.json`. |
 | No ribbon on YouTube | Refresh the YouTube tab after installing or updating. Ribbons appear on thumbnails and the player, not on channel banners. |
 | "Could not read the transcript" | Open the video, click **…more** under it, then **Show transcript**, and press **Retry** in the card. If it still fails, open an issue with the video link and the card's *Technical details*. |
 | "This video has no captions" | The video has no captions or transcript, so there is nothing to read. |
